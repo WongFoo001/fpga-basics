@@ -5,7 +5,7 @@ General utilities for simple vivado FPGA projects - targets:
     and project files contained, s.t. they don't pollute git repo and can be easily
     cleaned up if desired.
 
-  viv-clean:
+  vivclean:
     If a temp directory was created to instance vivado - clean it up. This is destructive
     so make sure your source files are stored elsewhere.
 endef
@@ -20,6 +20,8 @@ vivado:
 	@mkdir -p viv-instance
 	@cd viv-instance; vivado;
 
-.PHONY: viv-clean
-viv-clean:
-	@if [ -d "./viv-instance" ]; then rm -rf ./viv-instance; fi
+.PHONY: vivclean
+vivclean:
+	@rm -rf ./viv-instance;
+
+# TODO: Make may not be the right tool. Perhaps shell scripts are better.
