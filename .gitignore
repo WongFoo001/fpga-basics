@@ -1,0 +1,4 @@
+# viv-instance is a temporary project-mode instance of vivado.
+# All source files should be externally stored and thus not ignored
+# by the following:
+viv-instance/
