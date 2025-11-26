@@ -35,7 +35,7 @@ begin
       else
         if en = '0' then
         -- swing disabled, acts as a soft reset of the swing pattern
-          led_r <= '0';
+          led_r <= '1';
           toggle_period_counter_r <= to_unsigned(toggle_period_clks, toggle_period_counter_r'length);
         else
         -- swing enabled, toggle led on counter reset/roll-over

@@ -10,9 +10,11 @@ package led_pendulum_wave_pkg is
   -- pendulum will add 1 to the previous pendulum's oscillations.
   constant base_oscillations : natural := 1;
   -- Default time-length for osciallations in clock periods
-  -- Desired time-length: 1s -> 1E8 10ns clock periods
-  --constant wave_time_length_clks : natural := 100000000;
-  constant wave_time_length_clks : natural := 10000;
+  -- Desired time-length: 5s -> 5E8 10ns clock periods
+  -- ** Hardware constant
+  constant wave_time_length_clks : natural := 500000000;
+  -- ** Simulation constant
+  --constant wave_time_length_clks : natural := 10000;
 
   -- Calculates the period inbetween toggles for a singular pendulum
   -- of a pendulum wave given the time length and number of desired
