@@ -1,5 +1,6 @@
 # Ignore vim swp files
 **/*.swp
+**/*.swo
 
 # viv-instance is a temporary project-mode instance of vivado.
 # All source files should be externally stored and thus not ignored
