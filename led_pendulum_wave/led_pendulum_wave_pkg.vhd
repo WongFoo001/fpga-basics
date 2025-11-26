@@ -20,10 +20,8 @@ package body led_pendulum_wave_pkg is
     oscillations_per_time_length : natural range 1 to natural'high
   ) return natural is
     variable toggles_per_time_length : natural := 2 * oscillations_per_time_length;
-    variable toggle_period_real      : real    := wave_time_length_clks / toggles_per_time_length;
-    variable toggle_period_clks      : natural := natural(ceil(toggle_period_real));
   begin
-    return toggle_period_clks;
+    return wave_time_length_clks / toggles_per_time_length;
   end function;
 
 end led_pendulum_wave_pkg;

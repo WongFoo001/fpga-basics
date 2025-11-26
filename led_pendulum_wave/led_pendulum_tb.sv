@@ -25,10 +25,21 @@ module led_pendulum_tb;
     end
   end
 
+
   // test pendulum
   initial begin
+    en = 0;
+    do_reset();
     en = 1;
     #5ms;
+    $finish();
   end
+
+  task do_reset();
+    resetn = 0;
+    #20ns;
+    resetn = 1;
+    #20ns;
+  endtask
 endmodule
 
