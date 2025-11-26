@@ -10,8 +10,7 @@ use led_pendulum_wave_pkg.all;
 
 entity led_pendulum is
   generic (
-    TIMELENGTH_CLKS             : integer;
-    OSCILLATIONS_PER_TIMELENGTH : integer
+    toggle_period_clks : natural
   );
   port (
     clk    : in std_logic;
@@ -24,13 +23,8 @@ entity led_pendulum is
 end led_pendulum;
 
 architecture rtl of led_pendulum is
-  -- Each oscillation requires two toggles (off, on)
-  constant TOGGLES_PER_TIMELENGTH : integer := OSCILLATIONS_PER_TIMELENGTH * 2;
-  -- # of clock periods before toggling is computed via:
-  --   # of clks in time-length  / # of toggles per time-length
-  constant TOGGLE_PERIOD_CLKS     : integer := integer(floor(real(TIMELENGTH_CLKS) / real(TOGGLES_PER_TIMELENGTH)));
   -- counter register
-  signal toggle_period_counter_r : unsigned(
+  signal toggle_period_counter_r : unsigned(bitwidth(toggle_period_clks)-1 downto 0);
 begin
 end rtl;
 
