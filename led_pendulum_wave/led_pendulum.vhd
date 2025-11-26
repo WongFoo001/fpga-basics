@@ -1,8 +1,4 @@
 --  Module that emulates the swing of a pendulum via an led.
---
---  Pendulum period is parameterizable via:
---    - Number of clock periods per timelength
---    - Number of oscillations per timelength
 
 library ieee;
 use ieee.std_logic_1164.all;
