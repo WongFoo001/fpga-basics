@@ -23,8 +23,14 @@ package body general_utilities_pkg is
   end function;
 
   function bitwidth(i : natural) return natural is
+    variable ret : natural := clog2(i + 1);
   begin
-    return natural'max(1, clog2(i + 1));
+    -- minimum bit width is 1
+    if ret = 0 then
+      return 1;
+    end if;
+
+    return ret;
   end function;
 end package body;
 
