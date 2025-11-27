@@ -25,14 +25,14 @@ package seg7_display_driver_pkg is
   -- sections - where in each it drives one digit's anode active
   constant digit_active_period_clks : natural := display_refresh_period_clks / num_digits_in_display;
   
-  function character_cathode_encoding_lookup(
+  function cathode_encoding_lookup(
     input_char : raw_character_t;
     input_dp   : std_logic
   ) return cathode_encoding_t;
 end seg7_display_driver_pkg;
 
 package body seg7_display_driver_pkg is
-  function character_cathode_encoding_lookup(
+  function cathode_encoding_lookup(
     input_char : raw_character_t;
     input_dp   : std_logic
   ) return cathode_encoding_t is
@@ -40,6 +40,7 @@ package body seg7_display_driver_pkg is
   begin
     -- NOTE: While input characters/dp are active-high, all cathode
     -- encodings are active-low. Encodings are mapped as follows:
+    -- { 7,       ...       , A}
     -- {DP, G, F, E, D, C, B, A}
 
     -- Decimal-point encoding:
