@@ -1,0 +1,68 @@
+--  Module that controls a common-anode seven-segment
+-- display circuit. Supports A-Z,a-z,0-9 and decimal points,
+-- allowing application to supply desired characters directly
+-- as opposed to cathode-encodings.
+--
+-- NOTE: For readability, driver will output some letters in either
+-- lowercase or uppercase regardless of capitalization of input.
+--
+-- NOTE: that it assumes an 8-digit display while not all 8
+-- need be driven, it cannot drive more than eight as the
+-- anode driver period-divisions are not parameterizable.
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use work.seg7_display_driver_pkg.all;
+
+entity seg7_display_driver is
+  generic (
+    display_refresh_period_clks : natural := nexys_a7_display_refresh_period_clks
+  );
+  port (
+    clk    : in std_logic;
+    resetn : in std_logic;
+    -- individual digit data ports
+    en     : in  std_logic;
+    -- led drive
+    led    : out std_logic
+  );
+end led_pendulum;
+
+architecture rtl of led_pendulum is
+  -- led buffer
+  signal led_r : std_logic;
+
+  -- counter register
+  -- signal toggle_period_counter_r : unsigned(bitwidth(toggle_period_clks)-1 downto 0);
+  signal toggle_period_counter_r : unsigned(bitwidth(toggle_period_clks) downto 0);
+begin
+  toggle_period_counting : process(clk)
+  begin
+    if rising_edge(clk) then
+      if resetn = '0' then
+        toggle_period_counter_r <= to_unsigned(toggle_period_clks, toggle_period_counter_r'length);
+      else
+        if en = '0' then
+        -- swing disabled, acts as a soft reset of the swing pattern
+          led_r <= '1';
+          toggle_period_counter_r <= to_unsigned(toggle_period_clks, toggle_period_counter_r'length);
+        else
+        -- swing enabled, toggle led on counter reset/roll-over
+          if toggle_period_counter_r = 0 then
+          -- counter roll-over
+            led_r <= not led_r;
+            toggle_period_counter_r <= to_unsigned(toggle_period_clks, toggle_period_counter_r'length);
+          else
+          -- counter increment
+            toggle_period_counter_r <= toggle_period_counter_r - 1;
+          end if;
+        end if;
+      end if;
+
+      -- continuous led assignment
+      led <= led_r;
+    end if;
+  end process toggle_period_counting;
+end rtl;
+
