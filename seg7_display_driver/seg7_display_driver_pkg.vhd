@@ -47,28 +47,121 @@ package body seg7_display_driver_pkg is
 
     -- Character to cathode decoding:
     case input_char is
-      --    A or    a -> A
-      -- 0x41 or 0x61
+      -- 0
+      when x"30" =>
+        cathode_enc(6 downto 0) <= "1000000";
+      -- 1
+      when x"31" =>
+        cathode_enc(6 downto 0) <= "1111001";
+      -- 2
+      when x"32" =>
+        cathode_enc(6 downto 0) <= "0100100";
+      -- 3
+      when x"33" =>
+        cathode_enc(6 downto 0) <= "0110000";
+      -- 4
+      when x"34" =>
+        cathode_enc(6 downto 0) <= "0011001";
+      -- 5
+      when x"35" =>
+        cathode_enc(6 downto 0) <= "0010010";
+      -- 6
+      when x"36" =>
+        cathode_enc(6 downto 0) <= "0000010";
+      -- 7 
+      when x"37" =>
+        cathode_enc(6 downto 0) <= "1011000";
+      -- 8 
+      when x"38" =>
+        cathode_enc(6 downto 0) <= "00000000";
+      -- 9 
+      when x"39" =>
+        cathode_enc(6 downto 0) <= "0010000";
+      -- A or a -> A
       when x"41" or x"61" =>
         cathode_enc(6 downto 0) <= "0001000";
-      --    B or    b -> b
-      -- 0x42 or 0x62
+      -- B or b -> b
       when x"42" or x"62" =>
         cathode_enc(6 downto 0) <= "0000011";
-      --    C
-      -- 0x43
+      -- C
       when x"43" =>
         cathode_enc(6 downto 0) <= "1000110";
-      --    c
-      -- 0x63
+      -- c
       when x"63" =>
         cathode_enc(6 downto 0) <= "0100111";
-      --    D or    d -> d
-      -- 0x44 or 0x64
+      -- D or d -> d
       when x"44" or x"64" =>
         cathode_enc(6 downto 0) <= "0100001";
-
-      -- Default or non-supported character appears blank
+      -- E or e -> E
+      when x"45" or x"65" =>
+        cathode_enc(6 downto 0) <= "0000110";
+      -- F or f -> F
+      when x"46" or x"66" =>
+        cathode_enc(6 downto 0) <= "0001110";
+      -- G or g -> G
+      when x"47" or x"67" =>
+        cathode_enc(6 downto 0) <= "1000010";
+      -- H
+      when x"48" =>
+        cathode_enc(6 downto 0) <= "0001001";
+      -- h
+      when x"68" =>
+        cathode_enc(6 downto 0) <= "0001011";
+      -- I or i -> I
+      when x"49" or x"69" =>
+        cathode_enc(6 downto 0) <= "1111001";
+      -- J or j -> J
+      when x"4A" or x"6A" =>
+        cathode_enc(6 downto 0) <= "1100001";
+      -- K or k -> K
+      when x"4B" or x"6B" =>
+        cathode_enc(6 downto 0) <= "0000101";
+      -- L or l -> L
+      when x"4C" or x"6C" =>
+        cathode_enc(6 downto 0) <= "1000111";
+      -- M or m -> m
+      when x"4D" or x"6D" =>
+        cathode_enc(6 downto 0) <= "1101010";
+      -- N or n -> n
+      when x"4E" or x"6E" =>
+        cathode_enc(6 downto 0) <= "0101011";
+      -- O or o -> o
+      when x"4F" or x"6F" =>
+        cathode_enc(6 downto 0) <= "0100011";
+      -- P or p -> P 
+      when x"50" or x"70" =>
+        cathode_enc(6 downto 0) <= "0001100";
+      -- Q or q -> q
+      when x"51" or x"71" =>
+        cathode_enc(6 downto 0) <= "0011000";
+      -- R or r -> r
+      when x"52" or x"72" =>
+        cathode_enc(6 downto 0) <= "0101111";
+      -- S or s -> S
+      when x"53" or x"73" =>
+        cathode_enc(6 downto 0) <= "0010010";
+      -- T or t -> t
+      when x"54" or x"74" =>
+        cathode_enc(6 downto 0) <= "0000111";
+      -- U or u -> u
+      when x"55" or x"75" =>
+        cathode_enc(6 downto 0) <= "1100011";
+      -- V or v -> v
+      when x"56" or x"76" =>
+        cathode_enc(6 downto 0) <= "1000001";
+      -- W or w -> W
+      when x"57" or x"77" =>
+        cathode_enc(6 downto 0) <= "0010101";
+      -- X or x -> X
+      when x"58" or x"78" =>
+        cathode_enc(6 downto 0) <= "0101010";
+      -- Y or y -> y
+      when x"59" or x"79" =>
+        cathode_enc(6 downto 0) <= "0010001";
+      -- Z or z -> Z
+      when x"5A" or x"7A" =>
+        cathode_enc(6 downto 0) <= "0100100";
+      -- Non-supported character appears blank
       when others =>
         cathode_enc(6 downto 0) <= (others => '1');
     end case;
