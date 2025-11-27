@@ -20,16 +20,16 @@ entity seg7_display_driver is
     display_refresh_period_clks : natural := nexys_a7_display_refresh_period_clks
   );
   port (
-    clk    : in std_logic;
-    resetn : in std_logic;
+    clk        : in std_logic;
+    resetn     : in std_logic;
     -- TEMP: single digit for testing
-    input_char     : in  raw_character_t;
-    input_dp     : in  std_logic;
+    input_char : in raw_character_t;
+    input_dp   : in std_logic;
     -- 7-seg drive
     -- TEMP anode can be single bit since we're only driving one digit
-    an_select : out std_logic;
+    an         : out anode_select_t;
     -- cathode drive
-    cath    : out cathode_encoding_t
+    cath       : out cathode_encoding_t
   );
 end seg7_display_driver;
 
@@ -37,6 +37,6 @@ architecture rtl of seg7_display_driver is
 begin
   cath <= cathode_encoding_lookup(input_char, input_dp);
   -- drive only digit 0
-  an_select <= '0';
+  an <= "11111110";
 end rtl;
 
