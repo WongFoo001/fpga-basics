@@ -3,13 +3,32 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 package seg7_display_driver_pkg is
+  -- Anode selection
+  subtype anode_select_t is std_logic_vector(7 downto 0);
   -- Character subtype for convenience and readability
   subtype raw_character_t is std_logic_vector(7 downto 0);
   -- Cathode-encoding subtype for convenience and readability
   -- NOTE: There are only 7 character cathodes, MSB is for DP cathode.
   subtype cathode_encoding_t is std_logic_vector(7 downto 0);
-  -- Anode selection
-  subtype anode_select_t is std_logic_vector(7 downto 0);
+  -- Character inputs for each digit display
+  type char_inputs_t is record
+    digit_0 : raw_character_t;
+    dp_0    : std_logic;
+    digit_1 : raw_character_t;
+    dp_1    : std_logic;
+    digit_2 : raw_character_t;
+    dp_2    : std_logic;
+    digit_3 : raw_character_t;
+    dp_3    : std_logic;
+    digit_4 : raw_character_t;
+    dp_4    : std_logic;
+    digit_5 : raw_character_t;
+    dp_5    : std_logic;
+    digit_6 : raw_character_t;
+    dp_6    : std_logic;
+    digit_7 : raw_character_t;
+    dp_7    : std_logic;
+  end record char_inputs_t;
 
   -- Number of digits in display, Nexys A7 has 8
   constant nexys_a7_num_digits_in_display : natural := 8;
