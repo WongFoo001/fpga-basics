@@ -25,6 +25,9 @@ architecture rtl of bad_typewriter is
   -- input character buffer, one index per display digit
   signal char_buffer_r : char_buffer_t;
 
+  -- anode buffer read to control input-char mux
+  signal an_r : anode_select_t;
+
   -- 7-segment display controller
   component seg7_display_driver
     generic (display_refresh_period_clks : natural);
@@ -53,8 +56,28 @@ begin
           char_buffer_r(7 downto 1) <= char_buffer_r(6 downto 0);
           char_buffer_r(0) <= (others => '0');
         else
-          -- Update LSB in buffer array with currently desired char/dp 
-          char_buffer_r(0) <= dp & char;
+          -- Update active digit in buffer array with input char/dp 
+          case (an_r) is
+            when "11111110" =>
+              char_buffer_r(0) <= dp & char;
+            when "11111101" =>
+              char_buffer_r(1) <= dp & char;
+            when "11111011" =>
+              char_buffer_r(2) <= dp & char;
+            when "11110111" =>
+              char_buffer_r(3) <= dp & char;
+            when "11101111" =>
+              char_buffer_r(4) <= dp & char;
+            when "11011111" =>
+              char_buffer_r(5) <= dp & char;
+            when "10111111" =>
+              char_buffer_r(6) <= dp & char;
+            when "01111111" =>
+              char_buffer_r(7) <= dp & char;
+            -- illegal and impossible to reach
+            when others =>
+              null;
+          end case;
         end if;
       end if;
     end if;
@@ -68,7 +91,7 @@ begin
       clk                => clk,
       resetn             => resetn,
       -- char buffer to display controller record
-      display_in.digit_0 => char_buffer_r(0)(7 downto 0),
+      display_in.digit_0 => raw_character_t(char_buffer_r(0)(7 downto 0)),
       display_in.dp_0    => char_buffer_r(0)(8),
       display_in.digit_1 => char_buffer_r(1)(7 downto 0),
       display_in.dp_1    => char_buffer_r(1)(8),
@@ -85,8 +108,12 @@ begin
       display_in.digit_7 => char_buffer_r(7)(7 downto 0),
       display_in.dp_7    => char_buffer_r(7)(8),
       -- display outputs
-      an                 => an,
+      an                 => an_r,
       cath               => cath
     );
+
+    -- anode assignment from buffer instead of directly b/c
+    -- VHDL '93 is actually a pos
+    an <= an_r;
 end rtl;
 

@@ -28,7 +28,7 @@ module bad_typewriter_tb;
 
   task do_reset();
     resetn = 0;
-    wait_num_clocks(1);
+    wait_num_clocks(3);
     resetn = 1;
     wait_num_clocks(1);
   endtask
