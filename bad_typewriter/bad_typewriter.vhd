@@ -57,27 +57,7 @@ begin
           char_buffer_r(0) <= (others => '0');
         else
           -- Update active digit in buffer array with input char/dp 
-          case (an_r) is
-            when "11111110" =>
-              char_buffer_r(0) <= dp & char;
-            when "11111101" =>
-              char_buffer_r(1) <= dp & char;
-            when "11111011" =>
-              char_buffer_r(2) <= dp & char;
-            when "11110111" =>
-              char_buffer_r(3) <= dp & char;
-            when "11101111" =>
-              char_buffer_r(4) <= dp & char;
-            when "11011111" =>
-              char_buffer_r(5) <= dp & char;
-            when "10111111" =>
-              char_buffer_r(6) <= dp & char;
-            when "01111111" =>
-              char_buffer_r(7) <= dp & char;
-            -- illegal and impossible to reach
-            when others =>
-              null;
-          end case;
+          char_buffer_r(0) <= dp & char;
         end if;
       end if;
     end if;
