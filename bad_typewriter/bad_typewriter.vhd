@@ -28,6 +28,26 @@ architecture rtl of bad_typewriter is
   -- anode buffer read to control input-char mux
   signal an_r : anode_select_t;
 
+  -- debounced shift button buffer
+  signal debounced_shift_r : std_logic;
+
+  -- shift button buffer, to detect edges
+  signal buff_shift_r : std_logic;
+
+  -- shift rising edge proxy
+  signal shift_re_r : std_logic;
+
+  -- shift button debouncer
+  component debouncer
+    generic (debounce_period_clks : natural);
+    port (
+      clk           : in std_logic;
+      resetn        : in std_logic;
+      raw_in        : in std_logic;
+      debounced_out : out std_logic
+    );
+  end component debouncer;
+
   -- 7-segment display controller
   component seg7_display_driver
     generic (display_refresh_period_clks : natural);
@@ -51,7 +71,7 @@ begin
         char_buffer_r <= (others => (others => '0'));
       else
         -- check for shift command
-        if shift = '1' then
+        if shift_re_r = '1' then
           -- shift buffer array to the left, throwing away MSB element
           char_buffer_r(7 downto 1) <= char_buffer_r(6 downto 0);
           char_buffer_r(0) <= (others => '0');
@@ -62,6 +82,37 @@ begin
       end if;
     end if;
   end process char_buffer_ctrl;
+
+  shift_edge_detect : process(clk)
+  begin
+    if rising_edge(clk) then
+      if resetn = '0' then
+        buff_shift_r <= '0';
+        shift_re_r <= '0';
+      else
+        -- buffer previous shift state
+        buff_shift_r <= debounced_shift_r;
+
+        -- rising edge detect
+        if (buff_shift_r = '0') and (debounced_shift_r = '1') then
+          shift_re_r <= '1';
+        else
+          shift_re_r <= '0';
+        end if;
+      end if;
+    end if;
+  end process shift_edge_detect;
+
+  shift_debouncer_inst : debouncer
+    generic map (
+      debounce_period_clks => 200000
+    )
+    port map (
+      clk           => clk,
+      resetn        => resetn,
+      raw_in        => shift,
+      debounced_out => debounced_shift_r
+    );
 
   seg7_display_driver_inst : seg7_display_driver
     generic map(

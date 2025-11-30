@@ -59,7 +59,7 @@ module bad_typewriter_tb;
 
   task do_shift();
     shift = 1;
-    wait_num_clocks(1);
+    wait_num_clocks(200001);
     shift = 0;
     wait_num_clocks(1);
 
