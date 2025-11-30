@@ -1,4 +1,5 @@
-module bad_typewriter_tb;
+// TODO: custom testbench module name here
+module testbench_tb;
   localparam CLK_HALF_PERIOD_NS = 5;
   logic clk, resetn;
 
